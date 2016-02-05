@@ -1,0 +1,50 @@
+# GIT to preserve file integrity
+
+using git to create version control for a web server
+####################################################
+
+create a directory called GIT (e.x. ~/GIT) and cd into it
+#########################################################
+
+run 'git init --bare <repository>.git'
+
+go to web directory and run the following (in the folder above the web content directory)
+#########################################################################################
+
+mv <original_dir> <original_dir>-$(date +%Y-%m-%d)
+
+git clone ~/GIT/<repository>.git <original_dir>
+
+cp -R <original_dir>-$(date +%Y-%m-%d) <original_dir>
+
+then run these commands 
+#######################
+
+cd <original_dir>
+
+git add .
+
+git commit -m "Initial Code Commit"
+
+git push
+
+Now you have all web code in a git repo located in ~/<repository> (Or where ever you chose)
+###########################################################################################
+
+simply add a crontab entry
+##########################
+
+# Reset code to GIT repository
+* * * * * cd <dir>/<original_dir>; git reset HEAD
+
+Then possibly add a web server restart if you think the changes would warrant it
+
+## git reset HEAD -- will take you back to the original 
+
+Then if you need to update the site, simply disbale the crontab entry, add code, then run, git add .; git commit -a; git push 
+
+Afterwards re-enable the crontab entry 
+
+----------------------------------------------------------------------------------------------
+
+Other GIT commands may be necessary to achive what you are looking for
